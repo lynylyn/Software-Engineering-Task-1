@@ -74,6 +74,12 @@
     3. A short list of similar tags is displayed.
     - Postconditions: Similar tags are retrieved and displayed successfully.
 - 07: Request charts on top tracks
+    - Actors: User
+    - Preconditions: Internet access; last.fm API is available
+    1. Request to see top tracks in the main menu
+    2. System retrieves the information on the top track from the API using `tag.getSimilar`.
+    3. A short list of similar tags is displayed.
+    - Postconditions: Similar tags are retrieved and displayed successfully.
 - 08: Request charts on top artists
 - 09: Request charts on top tags
 
@@ -112,7 +118,10 @@
     - There's highly advanced API integration and module usage (+ evaluation)
     - Future maintenance is evaluated
 
-## Temporary to-do (ignore)
-- what are tags?! i assumed genres but im unsure
-- requests or python library?
-- how to hide api key
+# Design
+## Structure Chart
+![Structure Chart](StructureChart.png)
+
+## Data Dictionary
+| Field name | Description | Data type | Constraints / Notes | Size for display |
+| --- | --- | --- | --- | --- |
