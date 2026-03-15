@@ -76,12 +76,24 @@
 - 07: Request charts on top tracks
     - Actors: User
     - Preconditions: Internet access; last.fm API is available
-    1. Request to see top tracks in the main menu
-    2. System retrieves the information on the top track from the API using `tag.getSimilar`.
-    3. A short list of similar tags is displayed.
-    - Postconditions: Similar tags are retrieved and displayed successfully.
+    1. System retrieves the information on the top tracks from the API using `chart.getTopTracks`.
+    2. This information is converted to a bar graph using matplotlib.
+    3. A chart of top tracks is displayed.
+    - Postconditions: Top tracks are retrieved and displayed successfully.
 - 08: Request charts on top artists
+    - Actors: User
+    - Preconditions: Internet access; last.fm API is available
+    1. System retrieves the information on the top tracks from the API using `chart.getTopArtists`.
+    2. This information is converted to a bar graph using matplotlib.
+    3. A chart of top artists is displayed.
+    - Postconditions: Top artists are retrieved and displayed successfully.
 - 09: Request charts on top tags
+    - Actors: User
+    - Preconditions: Internet access; last.fm API is available
+    1. System retrieves the information on the top tracks from the API using `chart.getTopTags`.
+    2. This information is converted to a bar graph using matplotlib.
+    3. A chart of top tags is displayed.
+    - Postconditions: Top tags are retrieved and displayed successfully.
 
 
 ## Non-Functional Requirements
