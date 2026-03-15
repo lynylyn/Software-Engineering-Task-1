@@ -130,7 +130,7 @@
 | artist_name
 | tag_name
 
-## Algorithms
+## Pseudocode
 **Main Routine**
 ```
 BEGIN menu()
@@ -157,9 +157,9 @@ WHILE True:
         ENDIF
 END
 ```
-**Function: search_song**
+**Function: searchSong**
 ```
-BEGIN search_song()
+BEGIN searchSong()
     REPEAT
         DISPLAY "Please input the song name."
         INPUT song_name
@@ -194,10 +194,28 @@ BEGIN search_song()
             DISPLAY "The choice was invalid."
 END
 ```
-**Function: exit()**
+**Function: save**
 ```
-BEGIN exit()
-    DISPLAY "Please enter your name."
-    INPUT user_name
-    SAVE past_session and user_name to pastsessions.txt
+BEGIN save
+    DISPLAY:
+        "[1] View a previous session
+        [2] Save this session"
+    INPUT user_choice
+    IF user_choice = 1 THEN:
+        DISPLAY pastsessions.txt
+    ELSE:
+        DISPLAY "Please enter your name."
+        INPUT user_name
+        SAVE past_session and user_name to pastsessions.txt
 END
+```
+
+## Flowcharts
+**Main**
+![Main Flowchart](MainFlowchart.png)
+**searchSong()**
+![Search Flowchart 1](SearchFlowchart1.png)
+![Search Flowchart 2](SearchFlowchart2.png)
+**save()**
+![Save Flowchart ](SaveFlowchart.png)
+Better resolution: https://miro.com/app/board/uXjVGxIgRu8=/?share_link_id=865733471916
