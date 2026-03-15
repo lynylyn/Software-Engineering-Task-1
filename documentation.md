@@ -125,3 +125,79 @@
 ## Data Dictionary
 | Field name | Description | Data type | Constraints / Notes | Size for display |
 | --- | --- | --- | --- | --- |
+| user_choice
+| song_name
+| artist_name
+| tag_name
+
+## Algorithms
+**Main Routine**
+```
+BEGIN menu()
+WHILE True:
+    DISPLAY:
+        "[1] Search for a song
+        [2] Search for an artist
+        [3] Search for a tag
+        [4] See top music
+        [5] Save and exit"
+    INPUT user_choice
+        IF user_choice = 1 THEN:
+            search_song()
+        IF user_choice = 2 THEN:
+            search_artist()
+        IF user_choice = 3 THEN:
+            search_tag()
+        IF user_choice = 4 THEN:
+            see_charts()
+        IF user_choice = 5 THEN:
+            save()
+        ELSE:
+            DISPLAY "The choice was invalid."
+        ENDIF
+END
+```
+**Function: search_song**
+```
+BEGIN search_song()
+    REPEAT
+        DISPLAY "Please input the song name."
+        INPUT song_name
+        DISPLAY "Please input the artist name."
+        INPUT artist_name
+        REQUEST track.getInfo (song_name, artist_name)
+        IF error = true THEN:
+            IF: response = 7 THEN:
+                DISPLAY "The artist or song name were incorrect."
+            ELSE:
+                DISPLAY "An error occured."
+        ENDIF
+    UNTIL error = false
+    DISPLAY track.getInfo
+    REQUEST track.getTags
+        IF error = true THEN:
+            DISPLAY "An error occured when fetching the top tags."
+    DISPLAY track.getTopTags
+    DISPLAY:
+        "[1] Find similar songs
+        [2] Search for another song
+        [3] Return to menu"
+    WHILE True:
+        INPUT user_choice
+        IF user_choice = 1 THEN:
+            similar_songs(song_name, artist_name)
+        IF user_choice = 2 THEN:
+            search_song()
+        IF user_choice = 3 THEN:
+            menu()
+        ELSE:
+            DISPLAY "The choice was invalid."
+END
+```
+**Function: exit()**
+```
+BEGIN exit()
+    DISPLAY "Please enter your name."
+    INPUT user_name
+    SAVE past_session and user_name to pastsessions.txt
+END
