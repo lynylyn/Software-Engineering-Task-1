@@ -135,12 +135,17 @@
 ![Structure Chart](StructureChart.png)
 
 ## Data Dictionary
-| Field name | Description | Data type | Constraints / Notes | Size for display |
-| --- | --- | --- | --- | --- |
-| user_choice
-| song_name
-| artist_name
-| tag_name
+| Field name | Description | Data type | Format for display | Size in bytes | Size for display | Example | Validation |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| listeners | Number of listeners of a track, artist, or tag | Integer | | | | 549900 |
+| playcount | Number of plays of a track, artist, or tag | Integer | | | | 5300000 |
+| name | Name of a track, artist, or tag | String | | | | Linkin Park |
+| mbid | MusicBrainz ID (of a track, artist, or tag) | Integer | | | | 30cb03f3-bd95-43b0-9d41-6d75e13cd353 |
+| url | Last.fm URL of a track, artist, or tag | String | | | | https://www.last.fm/music/Linkin+Park/_/One+Step+Closer
+| duration | Duration of a track in milliseconds | Integer | | | | 157000
+| title | Title of an album | String | | | | Road To Revolution: Live at Milton Keynes |
+
+
 
 ## Pseudocode
 **Main Routine**
@@ -197,11 +202,11 @@ BEGIN searchSong()
     WHILE True:
         INPUT user_choice
         IF user_choice = 1 THEN:
-            similar_songs(song_name, artist_name)
+            findSimilar(song_name, artist_name)
         IF user_choice = 2 THEN:
-            search_song()
+            searchSong()
         IF user_choice = 3 THEN:
-            menu()
+            end
         ELSE:
             DISPLAY "The choice was invalid."
 END
@@ -231,3 +236,6 @@ END
 **save()**
 ![Save Flowchart ](SaveFlowchart.png)
 Better resolution: https://miro.com/app/board/uXjVGxIgRu8=/?share_link_id=865733471916
+
+## note to self
+https://lastfm-docs.github.io/api-docs/bugs/
