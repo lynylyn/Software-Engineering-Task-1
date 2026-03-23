@@ -237,5 +237,15 @@ END
 ![Save Flowchart ](SaveFlowchart.png)
 Better resolution: https://miro.com/app/board/uXjVGxIgRu8=/?share_link_id=865733471916
 
-## note to self
-https://lastfm-docs.github.io/api-docs/bugs/
+## Links to research
+https://pip.pypa.io/en/stable/cli/pip_freeze/ -> pip freeze
+
+https://lastfm-docs.github.io/api-docs/bugs/ -> better understanding of the api docs
+
+https://www.w3schools.com/xml/default.asp, https://docs.python.org/3/library/xml.etree.elementtree.html -> xml
+
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Overview -> http
+
+https://docs.python.org/3/tutorial/index.html -> extensive python tutorial (for things the beginners one is missing)
+
+https://requests.readthedocs.io/en/stable/user/quickstart/ -> requests

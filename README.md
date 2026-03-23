@@ -1,5 +1,5 @@
 # Software-Engineering-Task-1
-install python3 -m pip install requests
+-m pip install -r requirements.txt
 
 ^^ temporary, need to change
 
