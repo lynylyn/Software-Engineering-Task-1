@@ -1,7 +1,10 @@
+import client
+
 def searchSong():
     song_name = input("\nPlease input the song name.\n")
     artist_name = input("Please input the artist name.\n")
-    #request api
+    track = client.trackGetInfo(song_name, artist_name)
+    formattrack(track)
     #output info
     #request api
     #output info
@@ -43,7 +46,6 @@ def seeCharts():
         #generate w matplotlib
         print("See top tags")
 
-
 def save():
     print("Save")
 
@@ -61,3 +63,14 @@ def findSimilarTags(tag_name):
     #request api
     #output similar
     print(tag_name) #this is just a filler to see if params work
+
+def formattrack(track):
+    return f'''{track["title"]} by {track["artist"]}
+    {formatduration(track["duration"])}
+    {track["streams"]} streams
+    This song is tagged as: {", ".join(track["tags"])}
+    {track["summary"]}
+    '''
+
+def formatduration(seconds):
+    return f"{seconds / 60}: {seconds % 60:02}"

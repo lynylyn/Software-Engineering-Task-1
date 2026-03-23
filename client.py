@@ -5,6 +5,7 @@ import xml.etree.ElementTree as ET
 import webbrowser
 base_url = "https://ws.audioscrobbler.com/2.0"
 config = configparser.ConfigParser()
+config.read("apikey.ini")
 api_key = config["keys"]["key"]
 api_secret = config["keys"]["secret"]
 loggedin = False
@@ -23,11 +24,12 @@ def requestnoauth(method, params):
     r = requests.get(base_url,
                      params=fullparams,
                      headers={"user-agent": "Evelyn Starling's Project <evechrsta@gmail.com>"})
-    tree = ET.parse(r.text)
-    return tree.getroot()
+    lfm = ET.XML(r.text)
+    if lfm.attrib["status"] != "ok":
+        raise RuntimeError(f"Last.FM said: {lfm.find('error').text}")
 
 def makesignature(params):
-    keys = list(params.keys)
+    keys = list(params.keys())
     keys.sort()
     string = ""
     for name in keys:
@@ -50,11 +52,13 @@ def login():
     response = requestnoauth("auth.getSession", {"token": token})
     global session_key
     session_key = response.find("session/key").text
+    global loggedin
+    loggedin = True
 
 
 def trackGetInfo(song_name, artist_name):
     setup()
-    response = request("track.getInfo", {
+    response = requestauth("track.getInfo", {
         "artist": artist_name,
         "track": song_name
     })
