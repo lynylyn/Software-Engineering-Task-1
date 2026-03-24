@@ -23,9 +23,9 @@ def searchArtist():
         searchArtist()
 
 def searchTag():
-    tag_name = loginput("\nPlease input the tag name.")
-    #request api
-    #output info
+    tag_name = loginput("\nPlease input the tag name.\n")
+    tag = client.tagGetInfo(tag_name)
+    print(formattag(tag))
     user_choice = loginput("\n[1] Find similar tags\n[2] Search for another tag\n[3] Return to menu\n")
     if user_choice == "1":
         findSimilarTags(tag_name)
@@ -81,6 +81,14 @@ def formatartist(artist):
 This artist is tagged as: {", ".join(artist["tags"])}
 
 {artist["summary"]}
+'''
+
+def formattag(tag):
+    return f'''
+{tag["title"]}
+This tag has been used {tag["total"]} times.
+
+{tag["summary"]}
 '''
 
 def formatduration(seconds):

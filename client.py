@@ -84,7 +84,7 @@ def trackGetInfo(song_name, artist_name):
 def artistGetInfo(artist_name):
     setup()
     response = requestauth("artist.getInfo", {
-        "artist": artist_name,
+        "artist": artist_name
     })
     info = {
         "title": response.find("./name").text,
@@ -94,6 +94,39 @@ def artistGetInfo(artist_name):
     summary = response.find("bio/summary")
     if summary == None:
         info["summary"] = "There was no bio available."
+    else:
+        info["summary"] = summary.text
+    return info
+
+def tagGetInfo(tag_name):
+    setup()
+    response = requestauth("tag.getInfo", {
+        "tag": tag_name
+    })
+    info = {
+        "title": response.find("./name").text,
+        "total": int(response.find("./total").text)
+    }
+    summary = response.find("wiki/summary")
+    if summary == None:
+        info["summary"] = "There was no summary available."
+    else:
+        info["summary"] = summary.text
+    return info
+
+def tagGetTopTracks(tag_name):
+    setup()
+    response = requestauth("tag.getTopTracks", {
+        "tag": tag_name
+        "limit": 5
+    })
+    info = {
+        "title": response.find("./name").text,
+        "total": int(response.find("./total").text)
+    }
+    summary = response.find("wiki/summary")
+    if summary == None:
+        info["summary"] = "There was no summary available."
     else:
         info["summary"] = summary.text
     return info
