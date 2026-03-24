@@ -26,6 +26,8 @@ def searchTag():
     tag_name = loginput("\nPlease input the tag name.\n")
     tag = client.tagGetInfo(tag_name)
     print(formattag(tag))
+    tag = client.tagGetTopTracks(tag_name)
+    print(formattagtracks(tag))
     user_choice = loginput("\n[1] Find similar tags\n[2] Search for another tag\n[3] Return to menu\n")
     if user_choice == "1":
         findSimilarTags(tag_name)
@@ -45,13 +47,14 @@ def seeCharts():
         print("See top tags")
 
 def save():
-    print("Save")
+    user_name = input("Please input your name.")
+    stream = open('pastsessions.txt', 'at')
+    stream.write(f"{prompt}: {response}")
 
 # OPTIONS WITHIN OPTIONS
 def findSimilarTracks(song_name,artist_name):
-    #request api
-    #output similar
-    print(song_name, artist_name) #this is just a filler to see if params work
+    tracks = client.trackGetSimilar(song_name, artist_name)
+    print(formatsimilartracks(tracks))
 
 def findSimilarArtists(artist_name):
     #request api
@@ -89,6 +92,17 @@ def formattag(tag):
 This tag has been used {tag["total"]} times.
 
 {tag["summary"]}
+'''
+
+def formattagtracks(tag):
+    return f'''
+    [{tag["rank"]}] - {tag["toptracks"]} by {tag["toptracksartist"]}
+'''
+#    {", ".join(tag["toptracks"] and (tag["toptracksartist"]))}
+
+def formatsimilartracks(tracks):
+    return f'''
+{tracks["title"]} by {tracks["artist"]}
 '''
 
 def formatduration(seconds):

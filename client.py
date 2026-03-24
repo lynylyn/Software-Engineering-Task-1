@@ -10,7 +10,7 @@ api_key = config["keys"]["key"]
 api_secret = config["keys"]["secret"]
 loggedin = False
 session_key = None
-debug = False
+debug = True
 
 # AUTHENTICATION
 def requestauth(method, params):
@@ -81,6 +81,19 @@ def trackGetInfo(song_name, artist_name):
         info["summary"] = summary.text
     return info
 
+def trackGetSimilar(song_name, artist_name):
+    setup()
+    response = requestauth("track.getSimilar", {
+        "artist": artist_name,
+        "track": song_name,
+        "limit": "5"
+    })
+    info = {
+        "title": listify(response.findall("track/name")),
+        "artist": listify(response.findall("track/artist/name")),
+    }
+    return info
+
 def artistGetInfo(artist_name):
     setup()
     response = requestauth("artist.getInfo", {
@@ -117,18 +130,14 @@ def tagGetInfo(tag_name):
 def tagGetTopTracks(tag_name):
     setup()
     response = requestauth("tag.getTopTracks", {
-        "tag": tag_name
-        "limit": 5
+        "tag": tag_name,
+        "limit": "5"
     })
     info = {
-        "title": response.find("./name").text,
-        "total": int(response.find("./total").text)
+        "toptracks": listify(response.findall("track/name")),
+        "toptracksartist": listify(response.findall("track/artist/name")),
+        "rank": listify(response.findall("./ track rank"))
     }
-    summary = response.find("wiki/summary")
-    if summary == None:
-        info["summary"] = "There was no summary available."
-    else:
-        info["summary"] = summary.text
     return info
 
 # MORE SETUP / AUTH
