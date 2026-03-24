@@ -4,10 +4,7 @@ def searchSong():
     song_name = input("\nPlease input the song name.\n")
     artist_name = input("Please input the artist name.\n")
     track = client.trackGetInfo(song_name, artist_name)
-    formattrack(track)
-    #output info
-    #request api
-    #output info
+    print(formattrack(track))
     user_choice = input("\n[1] Find similar songs\n[2] Search for another song\n[3] Return to menu\n")
     if user_choice == "1":
         findSimilarTracks(song_name,artist_name)

@@ -3,7 +3,7 @@ import configparser
 import hashlib
 import xml.etree.ElementTree as ET
 import webbrowser
-base_url = "https://ws.audioscrobbler.com/2.0"
+base_url = "https://ws.audioscrobbler.com/2.0/"
 config = configparser.ConfigParser()
 config.read("apikey.ini")
 api_key = config["keys"]["key"]
@@ -27,6 +27,7 @@ def requestnoauth(method, params):
     lfm = ET.XML(r.text)
     if lfm.attrib["status"] != "ok":
         raise RuntimeError(f"Last.FM said: {lfm.find('error').text}")
+    return lfm.find('*')
 
 def makesignature(params):
     keys = list(params.keys())
@@ -46,12 +47,12 @@ def md5(text):
 def login():
     response = requestnoauth("auth.getToken", {})
     #lfm status ok ahhh error handling aahhh
-    token = response.find("token").text
+    token = response.text
     webbrowser.open (f"http://www.last.fm/api/auth/?api_key={api_key}&token={token}")
     input("Please press enter to continue.")
     response = requestnoauth("auth.getSession", {"token": token})
     global session_key
-    session_key = response.find("session/key").text
+    session_key = response.find("key").text
     global loggedin
     loggedin = True
 
@@ -62,14 +63,19 @@ def trackGetInfo(song_name, artist_name):
         "artist": artist_name,
         "track": song_name
     })
-    return {
+    info = {
         "title": response.find("./name").text,
         "artist": response.find("artist/name").text,
         "duration": int(response.find("./duration").text) / 1000,
         "streams": int(response.find("./playcount").text),
-        "summary": response.find("wiki/summary").text,
         "tags": listify(response.findall("toptags/tags/name"))
     }
+    summary = response.find("wiki/summary")
+    if summary == None:
+        info["summary"] = "There was no wiki summary available."
+    else:
+        info["summary"] = summary.text
+    return info
 
 def listify(elements):
     strings = []
