@@ -70,4 +70,4 @@ def formattrack(track):
     '''
 
 def formatduration(seconds):
-    return f"{seconds / 60}: {seconds % 60:02}"
+    return f"{seconds // 60:.0f}:{seconds % 60:02.0f}"

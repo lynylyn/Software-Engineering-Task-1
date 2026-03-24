@@ -27,6 +27,7 @@ def requestnoauth(method, params):
     lfm = ET.XML(r.text)
     if lfm.attrib["status"] != "ok":
         raise RuntimeError(f"Last.FM said: {lfm.find('error').text}")
+    print(r.text)
     return lfm.find('*')
 
 def makesignature(params):
@@ -68,7 +69,7 @@ def trackGetInfo(song_name, artist_name):
         "artist": response.find("artist/name").text,
         "duration": int(response.find("./duration").text) / 1000,
         "streams": int(response.find("./playcount").text),
-        "tags": listify(response.findall("toptags/tags/name"))
+        "tags": listify(response.findall("toptags/tag/name"))
     }
     summary = response.find("wiki/summary")
     if summary == None:
