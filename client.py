@@ -12,6 +12,7 @@ loggedin = False
 session_key = None
 debug = False
 
+# AUTHENTICATION
 def requestauth(method, params):
     fullparams = params.copy()
     fullparams["sk"] = session_key
@@ -59,7 +60,7 @@ def login():
     global loggedin
     loggedin = True
 
-
+# MENU FUNCTIONS
 def trackGetInfo(song_name, artist_name):
     setup()
     response = requestauth("track.getInfo", {
@@ -80,13 +81,32 @@ def trackGetInfo(song_name, artist_name):
         info["summary"] = summary.text
     return info
 
+def artistGetInfo(artist_name):
+    setup()
+    response = requestauth("artist.getInfo", {
+        "artist": artist_name,
+    })
+    info = {
+        "title": response.find("./name").text,
+        "listeners": int(response.find("stats/listeners").text),
+        "tags": listify(response.findall("tags/tag/name"))
+    }
+    summary = response.find("bio/summary")
+    if summary == None:
+        info["summary"] = "There was no bio available."
+    else:
+        info["summary"] = summary.text
+    return info
+
+# MORE SETUP / AUTH
+def setup():
+    global loggedin
+    if not loggedin:
+        login()
+
+
 def listify(elements):
     strings = []
     for element in elements:
         strings.append(element.text)
     return strings
-
-def setup():
-    global loggedin
-    if not loggedin:
-        login()

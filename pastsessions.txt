@@ -1,0 +1,19 @@
+
+[1] Search for a song
+[2] Search for an artist
+[3] Search for a tag
+[4] See top music
+[5] Save and exit
+: 1
+Please input the song name.
+: if i leavePlease input the artist name.
+: mitski
+[1] Search for a song
+[2] Search for an artist
+[3] Search for a tag
+[4] See top music
+[5] Save and exit
+: 1
+Please input the song name.
+: Bohemian RhapsodyPlease input the artist name.
+: Queen

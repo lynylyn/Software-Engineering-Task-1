@@ -1,5 +1,6 @@
 import client
 
+# MENU OPTIONS
 def searchSong():
     song_name = loginput("\nPlease input the song name.\n")
     artist_name = loginput("Please input the artist name.\n")
@@ -13,8 +14,8 @@ def searchSong():
 
 def searchArtist():
     artist_name = loginput("\nPlease input the artist name.\n")
-    #request api
-    #output info
+    artist = client.artistGetInfo(artist_name)
+    print(formatartist(artist))
     user_choice = loginput("\n[1] Find similar artists\n[2] Search for another artist\n[3] Return to menu\n")
     if user_choice == "1":
         findSimilarArtists(artist_name)
@@ -46,6 +47,7 @@ def seeCharts():
 def save():
     print("Save")
 
+# OPTIONS WITHIN OPTIONS
 def findSimilarTracks(song_name,artist_name):
     #request api
     #output similar
@@ -61,6 +63,7 @@ def findSimilarTags(tag_name):
     #output similar
     print(tag_name) #this is just a filler to see if params work
 
+# FORMATTING
 def formattrack(track):
     return f'''
 {track["title"]} by {track["artist"]}
@@ -71,9 +74,19 @@ This song is tagged as: {", ".join(track["tags"])}
 {track["summary"]}
 '''
 
+def formatartist(artist):
+    return f'''
+{artist["title"]}
+{artist["listeners"]} listeners
+This artist is tagged as: {", ".join(artist["tags"])}
+
+{artist["summary"]}
+'''
+
 def formatduration(seconds):
     return f"{seconds // 60:.0f}:{seconds % 60:02.0f}"
 
+# SAVING
 def loginput(prompt):
     response = input(prompt)
     stream = open('pastsessions.txt', 'at')
