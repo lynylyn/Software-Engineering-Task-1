@@ -1,38 +1,38 @@
 import client
 
 def searchSong():
-    song_name = input("\nPlease input the song name.\n")
-    artist_name = input("Please input the artist name.\n")
+    song_name = loginput("\nPlease input the song name.\n")
+    artist_name = loginput("Please input the artist name.\n")
     track = client.trackGetInfo(song_name, artist_name)
     print(formattrack(track))
-    user_choice = input("\n[1] Find similar songs\n[2] Search for another song\n[3] Return to menu\n")
+    user_choice = loginput("\n[1] Find similar songs\n[2] Search for another song\n[3] Return to menu\n")
     if user_choice == "1":
         findSimilarTracks(song_name,artist_name)
     if user_choice == "2":
         searchSong()
 
 def searchArtist():
-    artist_name = input("\nPlease input the artist name.\n")
+    artist_name = loginput("\nPlease input the artist name.\n")
     #request api
     #output info
-    user_choice = input("\n[1] Find similar artists\n[2] Search for another artist\n[3] Return to menu\n")
+    user_choice = loginput("\n[1] Find similar artists\n[2] Search for another artist\n[3] Return to menu\n")
     if user_choice == "1":
         findSimilarArtists(artist_name)
     if user_choice == "2":
         searchArtist()
 
 def searchTag():
-    tag_name = input("\nPlease input the tag name.")
+    tag_name = loginput("\nPlease input the tag name.")
     #request api
     #output info
-    user_choice = input("\n[1] Find similar tags\n[2] Search for another tag\n[3] Return to menu\n")
+    user_choice = loginput("\n[1] Find similar tags\n[2] Search for another tag\n[3] Return to menu\n")
     if user_choice == "1":
         findSimilarTags(tag_name)
     if user_choice == "2":
         searchTag()
 
 def seeCharts():
-    user_choice = input("[1] See top tracks\n[2] See top artists\n[3] See top tags\n[4] Return to menu\n")
+    user_choice = loginput("[1] See top tracks\n[2] See top artists\n[3] See top tags\n[4] Return to menu\n")
     if user_choice == "1":
         #generate w matplotlib
         print("See top tracks")
@@ -62,7 +62,8 @@ def findSimilarTags(tag_name):
     print(tag_name) #this is just a filler to see if params work
 
 def formattrack(track):
-    return f'''{track["title"]} by {track["artist"]}
+    return f'''
+{track["title"]} by {track["artist"]}
 {formatduration(track["duration"])}
 {track["streams"]} streams
 This song is tagged as: {", ".join(track["tags"])}
@@ -72,3 +73,9 @@ This song is tagged as: {", ".join(track["tags"])}
 
 def formatduration(seconds):
     return f"{seconds // 60:.0f}:{seconds % 60:02.0f}"
+
+def loginput(prompt):
+    response = input(prompt)
+    stream = open('pastsessions.txt', 'at')
+    stream.write(f"{prompt}: {response}")
+    return response

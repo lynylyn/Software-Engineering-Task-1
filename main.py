@@ -1,6 +1,6 @@
 from funct import *
 while True:
-    user_choice = input("\n[1] Search for a song\n[2] Search for an artist\n[3] Search for a tag\n[4] See top music\n[5] Save and exit\n")
+    user_choice = loginput("\n[1] Search for a song\n[2] Search for an artist\n[3] Search for a tag\n[4] See top music\n[5] Save and exit\n")
     if user_choice == "1":
         searchSong()
     elif user_choice == "2":
