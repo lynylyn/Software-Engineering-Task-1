@@ -63,11 +63,12 @@ def findSimilarTags(tag_name):
 
 def formattrack(track):
     return f'''{track["title"]} by {track["artist"]}
-    {formatduration(track["duration"])}
-    {track["streams"]} streams
-    This song is tagged as: {", ".join(track["tags"])}
-    {track["summary"]}
-    '''
+{formatduration(track["duration"])}
+{track["streams"]} streams
+This song is tagged as: {", ".join(track["tags"])}
+
+{track["summary"]}
+'''
 
 def formatduration(seconds):
     return f"{seconds // 60:.0f}:{seconds % 60:02.0f}"

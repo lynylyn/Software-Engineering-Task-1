@@ -10,6 +10,7 @@ api_key = config["keys"]["key"]
 api_secret = config["keys"]["secret"]
 loggedin = False
 session_key = None
+debug = False
 
 def requestauth(method, params):
     fullparams = params.copy()
@@ -27,7 +28,8 @@ def requestnoauth(method, params):
     lfm = ET.XML(r.text)
     if lfm.attrib["status"] != "ok":
         raise RuntimeError(f"Last.FM said: {lfm.find('error').text}")
-    print(r.text)
+    if debug:
+        print(r.text)
     return lfm.find('*')
 
 def makesignature(params):
