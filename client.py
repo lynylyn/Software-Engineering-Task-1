@@ -113,6 +113,19 @@ def artistGetInfo(artist_name):
         info["summary"] = summary.text
     return info
 
+def artistGetSimilar(artist_name):
+    setup()
+    response = requestauth("artist.getSimilar", {
+        "artist": artist_name,
+        "limit": "5"
+    })
+    artists = []
+    for artist in response.findall("./artist"):
+        artists.append({
+            "name": artist.find("./name").text,
+        })
+    return artists
+
 def tagGetInfo(tag_name):
     setup()
     response = requestauth("tag.getInfo", {

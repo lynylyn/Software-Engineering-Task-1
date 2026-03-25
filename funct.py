@@ -59,9 +59,9 @@ def findSimilarTracks(song_name,artist_name):
     print(formatsimilartracks(tracks))
 
 def findSimilarArtists(artist_name):
-    #request api
-    #output similar
-    print(artist_name) #this is just a filler to see if params work
+    artists = client.artistGetSimilar(artist_name)
+    print("Here are some similar artists:")
+    print(formatsimilarartists(artists))
 
 def findSimilarTags(tag_name):
     #request api
@@ -106,6 +106,12 @@ def formatsimilartracks(tracks):
     s = ""
     for track in tracks:
         s = s + f'{track["name"]} by {track["artist"]}\n'
+    return s
+
+def formatsimilarartists(artists):
+    s = ""
+    for artist in artists:
+        s = s + f'{artist["name"]}\n'
     return s
 
 def formatduration(seconds):
