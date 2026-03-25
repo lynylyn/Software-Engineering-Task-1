@@ -55,6 +55,7 @@ def save():
 # OPTIONS WITHIN OPTIONS
 def findSimilarTracks(song_name,artist_name):
     tracks = client.trackGetSimilar(song_name, artist_name)
+    print("Here are some similar tracks:")
     print(formatsimilartracks(tracks))
 
 def findSimilarArtists(artist_name):
@@ -102,9 +103,10 @@ def formattagtracks(tracks):
     return s
 
 def formatsimilartracks(tracks):
-    return f'''
-{tracks["title"]} by {tracks["artist"]}
-'''
+    s = ""
+    for track in tracks:
+        s = s + f'{track["name"]} by {track["artist"]}\n'
+    return s
 
 def formatduration(seconds):
     return f"{seconds // 60:.0f}:{seconds % 60:02.0f}"

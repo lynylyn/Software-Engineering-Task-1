@@ -88,11 +88,13 @@ def trackGetSimilar(song_name, artist_name):
         "track": song_name,
         "limit": "5"
     })
-    info = {
-        "title": listify(response.findall("track/name")),
-        "artist": listify(response.findall("track/artist/name")),
-    }
-    return info
+    tracks = []
+    for track in response.findall("./track"):
+        tracks.append({
+            "name": track.find("./name").text,
+            "artist": track.find("artist/name").text
+        })
+    return tracks
 
 def artistGetInfo(artist_name):
     setup()
