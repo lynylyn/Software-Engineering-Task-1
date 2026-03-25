@@ -11,6 +11,10 @@ def searchSong():
         findSimilarTracks(song_name,artist_name)
     if user_choice == "2":
         searchSong()
+    if user_choice == "3":
+        pass
+    else:
+        print("The selection was invalid. Returning to the menu.")
 
 def searchArtist():
     artist_name = loginput("\nPlease input the artist name.\n")
@@ -21,6 +25,10 @@ def searchArtist():
         findSimilarArtists(artist_name)
     if user_choice == "2":
         searchArtist()
+    if user_choice == "3":
+        pass
+    else:
+        print("The selection was invalid. Returning to the menu.")
 
 def searchTag():
     tag_name = loginput("\nPlease input the tag name.\n")
@@ -34,6 +42,10 @@ def searchTag():
         findSimilarTags(tag_name)
     if user_choice == "2":
         searchTag()
+    if user_choice == "3":
+        pass
+    else:
+        print("The selection was invalid. Returning to the menu.")
 
 def seeCharts():
     user_choice = loginput("[1] See top tracks\n[2] See top artists\n[3] See top tags\n[4] Return to menu\n")
@@ -64,9 +76,9 @@ def findSimilarArtists(artist_name):
     print(formatsimilarartists(artists))
 
 def findSimilarTags(tag_name):
-    #request api
-    #output similar
-    print(tag_name) #this is just a filler to see if params work
+    tags = client.tagGetSimilar(tag_name)
+    print("Here are some similar tags:")
+    print(formatsimilartags(tags))
 
 # FORMATTING
 def formattrack(track):
@@ -99,7 +111,7 @@ This tag has been used {tag["total"]} times.
 def formattagtracks(tracks):
     s = ""
     for track in tracks:
-        s = s + f'[{track["rank"]}] - {track["name"]} by {track["artist"]}\n'
+        s = s + f'[{track["rank"]}]. {track["name"]} by {track["artist"]}\n'
     return s
 
 def formatsimilartracks(tracks):
@@ -112,6 +124,12 @@ def formatsimilarartists(artists):
     s = ""
     for artist in artists:
         s = s + f'{artist["name"]}\n'
+    return s
+
+def formatsimilartags(tags):
+    s = ""
+    for tag in tags:
+        s = s + f'{tag["name"]}\n'
     return s
 
 def formatduration(seconds):

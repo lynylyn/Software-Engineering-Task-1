@@ -157,6 +157,19 @@ def tagGetTopTracks(tag_name):
         })
     return tracks
 
+def tagGetSimilar(tag_name):
+    setup()
+    response = requestauth("tag.getSimilar", {
+        "tag": tag_name,
+        "limit": "5"
+    })
+    tags = []
+    for tag in response.findall("./tag"):
+        tags.append({
+            "tag": tag.find("tag/name").text,
+        })
+    return tags
+
 # MORE SETUP / AUTH
 def setup():
     global loggedin
