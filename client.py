@@ -50,8 +50,8 @@ def md5(text):
 
 def login():
     response = requestnoauth("auth.getToken", {})
-    #lfm status ok ahhh error handling aahhh
     token = response.text
+    input("Press enter to be redirected to the login page.")
     webbrowser.open (f"http://www.last.fm/api/auth/?api_key={api_key}&token={token}")
     input("Please press enter to continue.")
     response = requestnoauth("auth.getSession", {"token": token})
@@ -133,18 +133,32 @@ def tagGetTopTracks(tag_name):
         "tag": tag_name,
         "limit": "5"
     })
-    info = {
-        "toptracks": listify(response.findall("track/name")),
-        "toptracksartist": listify(response.findall("track/artist/name")),
-        "rank": listify(response.findall("./ track rank"))
-    }
-    return info
+    tracks = []
+    for track in response.findall("./track"):
+        tracks.append({
+            "name": track.find("./name").text,
+            "artist": track.find("artist/name").text,
+            "rank": int(track.attrib["rank"])
+        })
+    return tracks
 
 # MORE SETUP / AUTH
 def setup():
     global loggedin
+    global session_key
     if not loggedin:
+        try:
+            file = open('session_key.txt', 'r+')
+            newkey = file.readline().strip()
+            if newkey != "":
+                session_key = newkey
+                file.close()
+                return
+        except FileNotFoundError:
+            file = open('session_key.txt', 'w')
         login()
+        file.write(session_key + '\n')
+        file.close()
 
 
 def listify(elements):

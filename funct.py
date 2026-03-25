@@ -26,8 +26,9 @@ def searchTag():
     tag_name = loginput("\nPlease input the tag name.\n")
     tag = client.tagGetInfo(tag_name)
     print(formattag(tag))
-    tag = client.tagGetTopTracks(tag_name)
-    print(formattagtracks(tag))
+    tracks = client.tagGetTopTracks(tag_name)
+    print("Top tracks from this tag:")
+    print(formattagtracks(tracks))
     user_choice = loginput("\n[1] Find similar tags\n[2] Search for another tag\n[3] Return to menu\n")
     if user_choice == "1":
         findSimilarTags(tag_name)
@@ -94,11 +95,11 @@ This tag has been used {tag["total"]} times.
 {tag["summary"]}
 '''
 
-def formattagtracks(tag):
-    return f'''
-    [{tag["rank"]}] - {tag["toptracks"]} by {tag["toptracksartist"]}
-'''
-#    {", ".join(tag["toptracks"] and (tag["toptracksartist"]))}
+def formattagtracks(tracks):
+    s = ""
+    for track in tracks:
+        s = s + f'[{track["rank"]}] - {track["name"]} by {track["artist"]}\n'
+    return s
 
 def formatsimilartracks(tracks):
     return f'''
