@@ -10,7 +10,7 @@ api_key = config["keys"]["key"]
 api_secret = config["keys"]["secret"]
 loggedin = False
 session_key = None
-debug = True
+debug = False
 
 # AUTHENTICATION
 def requestauth(method, params):
