@@ -249,3 +249,5 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Overview -> http
 https://docs.python.org/3/tutorial/index.html -> extensive python tutorial (for things the beginners one is missing)
 
 https://requests.readthedocs.io/en/stable/user/quickstart/ -> requests
+
+https://matplotlib.org/ -> matplotlib docs

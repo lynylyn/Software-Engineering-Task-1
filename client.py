@@ -170,6 +170,20 @@ def tagGetSimilar(tag_name):
         })
     return tags
 
+def chartGetTopTracks():
+    setup()
+    response = requestauth("chart.getTopTracks", {
+        "limit": "5"
+    })
+    tracks = []
+    for track in response.findall("./track"):
+        tracks.append({
+            "title": track.find("./name").text,
+            "artist": track.find("artist/name").text,
+            "listeners": int(track.find("./listeners").text)
+        })
+    return tracks
+
 # MORE SETUP / AUTH
 def setup():
     global loggedin

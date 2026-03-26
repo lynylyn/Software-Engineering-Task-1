@@ -1,4 +1,6 @@
 import client
+import matplotlib.pyplot as plt
+import textwrap
 
 # MENU OPTIONS
 def searchSong():
@@ -50,19 +52,37 @@ def searchTag():
 def seeCharts():
     user_choice = loginput("[1] See top tracks\n[2] See top artists\n[3] See top tags\n[4] Return to menu\n")
     if user_choice == "1":
-        #generate w matplotlib
-        print("See top tracks")
-    if user_choice == "2":
+        tracks = client.chartGetTopTracks()
+        fig, ax = plt.subplots()
+        ax.bar(findxtrackchart(tracks), findytrackchart(tracks))
+        ax.set_ylabel('Listeners (millions)')
+        ax.set_title('Top songs by listener count')
+        plt.show()
+    elif user_choice == "2":
         #generate w matplotlib
         print("See top artists")
-    if user_choice == "3":
+    elif user_choice == "3":
         #generate w matplotlib
         print("See top tags")
+    elif user_choice == "4":
+        pass
+    else:
+        print("The selection was invalid.")
+        seeCharts()
 
 def save():
-    user_name = input("Please input your name.")
-    stream = open('pastsessions.txt', 'at')
-    stream.write(f"{prompt}: {response}")
+    user_name = input("Please input your name.\n")
+    input("[1] - View your past sessions\n[2] - Save and exit this session\n")
+    if input == "1":
+        file = open('pastsessions.txt', 'at')
+        print("File read")
+        # view past sessions
+    if input == "2":
+        file = open('pastsessions.txt', 'at')
+        file.write(f"--{user_name}")
+        quit
+    else:
+        print("The selection was invalid.")
 
 # OPTIONS WITHIN OPTIONS
 def findSimilarTracks(song_name,artist_name):
@@ -131,6 +151,18 @@ def formatsimilartags(tags):
     for tag in tags:
         s = s + f'{tag["name"]}\n'
     return s
+
+def findxtrackchart(tracks):
+    x = []
+    for track in tracks:
+        x.append(textwrap.fill(f"{track['title']} by {track['artist']}", width=20))
+    return x
+
+def findytrackchart(tracks):
+    y = []
+    for track in tracks:
+        y.append(track['listeners'])
+    return y
 
 def formatduration(seconds):
     return f"{seconds // 60:.0f}:{seconds % 60:02.0f}"
