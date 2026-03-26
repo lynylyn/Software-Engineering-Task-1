@@ -55,15 +55,26 @@ def seeCharts():
         tracks = client.chartGetTopTracks()
         fig, ax = plt.subplots()
         ax.bar(findxtrackchart(tracks), findytrackchart(tracks))
-        ax.set_ylabel('Listeners (millions)')
+        ax.set_ylabel('Listeners')
         ax.set_title('Top songs by listener count')
+        ax.yaxis.get_major_formatter().set_scientific(False)
         plt.show()
     elif user_choice == "2":
-        #generate w matplotlib
-        print("See top artists")
+        artists = client.chartGetTopArtists()
+        fig, ax = plt.subplots()
+        ax.bar(findxartistchart(artists), findyartistchart(artists))
+        ax.set_ylabel('Listeners')
+        ax.set_title('Top artists by listener count')
+        ax.yaxis.get_major_formatter().set_scientific(False)
+        plt.show()
     elif user_choice == "3":
-        #generate w matplotlib
-        print("See top tags")
+        tags = client.chartGetTopTags()
+        fig, ax = plt.subplots()
+        ax.bar(findxtagchart(tags), findytagchart(tags))
+        ax.set_ylabel('Reach')
+        ax.set_title('Top tags by reach')
+        ax.yaxis.get_major_formatter().set_scientific(False)
+        plt.show()
     elif user_choice == "4":
         pass
     else:
@@ -162,6 +173,30 @@ def findytrackchart(tracks):
     y = []
     for track in tracks:
         y.append(track['listeners'])
+    return y
+
+def findxartistchart(artists):
+    x = []
+    for artist in artists:
+        x.append(textwrap.fill(f"{artist['artist']}", width=20))
+    return x
+
+def findyartistchart(artists):
+    y = []
+    for artist in artists:
+        y.append(artist['listeners'])
+    return y
+
+def findxtagchart(tags):
+    x = []
+    for tag in tags:
+        x.append(textwrap.fill(f"{tag['name']}", width=20))
+    return x
+
+def findytagchart(tags):
+    y = []
+    for tag in tags:
+        y.append(tag['reach'])
     return y
 
 def formatduration(seconds):

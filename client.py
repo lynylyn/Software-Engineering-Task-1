@@ -184,6 +184,32 @@ def chartGetTopTracks():
         })
     return tracks
 
+def chartGetTopArtists():
+    setup()
+    response = requestauth("chart.getTopArtists", {
+        "limit": "5"
+    })
+    artists = []
+    for artist in response.findall("./artist"):
+        artists.append({
+            "artist": artist.find("./name").text,
+            "listeners": int(artist.find("./listeners").text)
+        })
+    return artists
+
+def chartGetTopTags():
+    setup()
+    response = requestauth("chart.getTopTags", {
+        "limit": "5"
+    })
+    tags = []
+    for tag in response.findall("./tag"):
+        tags.append({
+            "name": tag.find("./name").text,
+            "reach": int(tag.find("./reach").text)
+        })
+    return tags
+
 # MORE SETUP / AUTH
 def setup():
     global loggedin
