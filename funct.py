@@ -1,40 +1,56 @@
 import client
 import matplotlib.pyplot as plt
 import textwrap
+import session
 
 # MENU OPTIONS
 def searchSong():
     song_name = loginput("\nPlease input the song name.\n")
     artist_name = loginput("Please input the artist name.\n")
-    track = client.trackGetInfo(song_name, artist_name)
+    try:
+        track = client.trackGetInfo(song_name, artist_name)
+    except RuntimeError as e:
+        print(e)
+        searchSong()
+        return
     print(formattrack(track))
     user_choice = loginput("\n[1] Find similar songs\n[2] Search for another song\n[3] Return to menu\n")
     if user_choice == "1":
         findSimilarTracks(song_name,artist_name)
-    if user_choice == "2":
+    elif user_choice == "2":
         searchSong()
-    if user_choice == "3":
+    elif user_choice == "3":
         pass
     else:
         print("The selection was invalid. Returning to the menu.")
 
 def searchArtist():
     artist_name = loginput("\nPlease input the artist name.\n")
-    artist = client.artistGetInfo(artist_name)
+    try:
+        artist = client.artistGetInfo(artist_name)
+    except RuntimeError as e:
+        print(e)
+        searchArtist()
+        return
     print(formatartist(artist))
     user_choice = loginput("\n[1] Find similar artists\n[2] Search for another artist\n[3] Return to menu\n")
     if user_choice == "1":
         findSimilarArtists(artist_name)
-    if user_choice == "2":
+    elif user_choice == "2":
         searchArtist()
-    if user_choice == "3":
+    elif user_choice == "3":
         pass
     else:
         print("The selection was invalid. Returning to the menu.")
 
 def searchTag():
     tag_name = loginput("\nPlease input the tag name.\n")
-    tag = client.tagGetInfo(tag_name)
+    try:
+        tag = client.tagGetInfo(tag_name)
+    except RuntimeError as e:
+        print(e)
+        searchTag()
+        return
     print(formattag(tag))
     tracks = client.tagGetTopTracks(tag_name)
     print("Top tracks from this tag:")
@@ -42,9 +58,9 @@ def searchTag():
     user_choice = loginput("\n[1] Find similar tags\n[2] Search for another tag\n[3] Return to menu\n")
     if user_choice == "1":
         findSimilarTags(tag_name)
-    if user_choice == "2":
+    elif user_choice == "2":
         searchTag()
-    if user_choice == "3":
+    elif user_choice == "3":
         pass
     else:
         print("The selection was invalid. Returning to the menu.")
@@ -81,19 +97,23 @@ def seeCharts():
         print("The selection was invalid.")
         seeCharts()
 
-def save():
-    user_name = input("Please input your name.\n")
-    input("[1] - View your past sessions\n[2] - Save and exit this session\n")
-    if input == "1":
-        file = open('pastsessions.txt', 'at')
-        print("File read")
-        # view past sessions
-    if input == "2":
-        file = open('pastsessions.txt', 'at')
-        file.write(f"--{user_name}")
-        quit
+def save(user_name):
+    user_choice = input("[1] - View your past sessions\n[2] - Save and exit this session\n")
+    if user_choice == "1":
+        sessions = session.loadsessions(user_name)
+        if len(sessions) == 0:
+            print("No sessions found.")
+            return
+        session_number = input(f"Choose a session between 1-{len(sessions)}.\n")
+        id = int(session_number) - 1
+        print("--PAST SESSIONS--\n\n")
+        for record in sessions[id]:
+            print(f"{record['prompt']}\n    {record['response']}")
+    elif user_choice == "2":
+        session.savesession(user_name)
     else:
         print("The selection was invalid.")
+        save(user_name)
 
 # OPTIONS WITHIN OPTIONS
 def findSimilarTracks(song_name,artist_name):
@@ -204,7 +224,4 @@ def formatduration(seconds):
 
 # SAVING
 def loginput(prompt):
-    response = input(prompt)
-    stream = open('pastsessions.txt', 'at')
-    stream.write(f"{prompt}: {response}")
-    return response
+    return session.loginput(prompt)
